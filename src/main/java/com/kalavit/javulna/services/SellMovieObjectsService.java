@@ -37,7 +37,7 @@ public class SellMovieObjectsService {
             throw new InvalidOrderException("Emtpy order.");
         }
         Set<String> movieObjectIds = new HashSet<>();
-        int sumPrice = 0;
+        long sumPrice = 0;
         for (OrderItemDto orderItem : orderItems) {
             String movieObjectId = orderItem.getMovieObjectId();
             MovieObject mo = em.find(MovieObject.class, movieObjectId);
@@ -48,7 +48,7 @@ public class SellMovieObjectsService {
                 throw new InvalidOrderException("An order list should contain each movieObject only once.");
             }
             movieObjectIds.add(movieObjectId);
-            sumPrice += (mo.getPrice()*orderItem.getNrOfItemsOrdered());
+            sumPrice += (1L*mo.getPrice()*orderItem.getNrOfItemsOrdered());
             
         }
         OrderResultDto result = new OrderResultDto();
