@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.Validate;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +87,7 @@ public class UserService {
     }
 
     private String createXml(String name, String newPassword) {
+    	Validate.matchesPattern(newPassword, "\\w+");
         try {
             String xmlString = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("xml/PasswordChange.xml"), "UTF-8");
             xmlString = xmlString.replaceAll("PWD_TO_REPLACE", newPassword);
