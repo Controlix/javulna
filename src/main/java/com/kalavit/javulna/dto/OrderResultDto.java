@@ -11,7 +11,7 @@ package com.kalavit.javulna.dto;
  */
 public class OrderResultDto {
     private OrderListDto orderList;
-    private int sumPriceToPay;
+    private long sumPriceToPay;
 
     public OrderListDto getOrderList() {
         return orderList;
@@ -21,11 +21,11 @@ public class OrderResultDto {
         this.orderList = orderList;
     }
 
-    public int getSumPriceToPay() {
+    public long getSumPriceToPay() {
         return sumPriceToPay;
     }
 
-    public void setSumPriceToPay(int sumPriceToPay) {
+    public void setSumPriceToPay(long sumPriceToPay) {
         this.sumPriceToPay = sumPriceToPay;
     }
 
