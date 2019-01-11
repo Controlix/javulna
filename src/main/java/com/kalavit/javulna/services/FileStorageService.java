@@ -16,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +50,7 @@ public class FileStorageService {
     }
     
     public Resource loadFileAsResource(String fileName) {
+    	Validate.isTrue(FilenameUtils.getPath(fileName).length() == 0, "filename should not contain a path");
         try {
             Path filePath = Paths.get(fileStorageDir, fileName);
             LOG.debug("gonna read file from {}" ,filePath.toString());
