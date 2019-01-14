@@ -46,7 +46,7 @@ public class SerializationUtil {
     public static Object readUserFromFile(byte[] byteArray) {
         ObjectInputStream ist;
         try {
-            ist = new ObjectInputStream(new ByteArrayInputStream(byteArray));
+            ist = new LookAheadObjectInputStream(new ByteArrayInputStream(byteArray));
             Object obj = ist.readObject();
             return obj;
         } catch (IOException | ClassNotFoundException ex) {
