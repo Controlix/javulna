@@ -12,6 +12,8 @@ import java.io.ByteArrayInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.slf4j.Logger;
@@ -101,8 +103,10 @@ public class MovieService {
     public Movie saveMovieFromXml(String xml){
         try {
             Movie m = new Movie();
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")));
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")));
             Element root = doc.getDocumentElement();
             m.setTitle(getText(root, "title"));
             m.setDescription(getText(root, "description"));
