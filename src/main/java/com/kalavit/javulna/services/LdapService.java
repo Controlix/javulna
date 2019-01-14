@@ -7,6 +7,10 @@ package com.kalavit.javulna.services;
 
 import com.kalavit.javulna.dto.LdapUserDto;
 import com.kalavit.javulna.springconfig.LdapConfig;
+
+import static org.apache.directory.ldap.client.api.search.FilterBuilder.and;
+import static org.apache.directory.ldap.client.api.search.FilterBuilder.equal;
+
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +23,8 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
+
+import org.apache.directory.ldap.client.api.search.FilterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -54,7 +60,8 @@ public class LdapService {
         try {
             LdapUserDto ret = new LdapUserDto();
             DirContext ctx = initContext();
-            String filter = "(&(uid=" + uid + ") (userPassword=" + password + "))";
+            
+            String filter = and(equal("uid", uid), equal("userPassword", password)).toString();
 
             SearchControls ctls = new SearchControls();
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
